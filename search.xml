@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[Rabbitmq Network Partitions 网络分区解决方案]]></title>
+    <url>%2F2019%2F04%2F04%2FRabbitmq-Network-Partitions-%E7%BD%91%E7%BB%9C%E5%88%86%E5%8C%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%2F</url>
+    <content type="text"><![CDATA[高可用集群环境（镜像模式）： 双节点：rabbit@rabbit1（master）、rabbit@rabbit2（slave） 集群设置： rabbit1控制台：123rabbitmqctl stop_apprabbitmqctl resetrabbitmqctl start_app 将节点2加入到集群，rabbit2控制台：1234rabbitmqctl stop_apprabbitmqctl resetrabbitmqctl join_cluster --ram rabbit@rabbit1rabbitmqctl start_app 参数“–ram”表示设置为内存节点，忽略此参数则默认为磁盘节点。可以用命令rabbitmqctl change_cluster_node_type disc改变节点类型，需要注意的是集群环境中至少有一个为磁盘节点 最后查看集群状态：1234567root@rabbit2:/# rabbitmqctl cluster_statusCluster status of node rabbit@rabbit2 ...[&#123;nodes,[&#123;disc,[rabbit@rabbit1]&#125;,&#123;ram,[rabbit@rabbit2]&#125;]&#125;, &#123;running_nodes,[rabbit@rabbit1,rabbit@rabbit2]&#125;, &#123;cluster_name,&lt;&lt;&quot;rabbit@rabbit-cluster&quot;&gt;&gt;&#125;, &#123;partitions,[]&#125;, &#123;alarms,[&#123;rabbit@rabbit1,[]&#125;,&#123;rabbit@rabbit2,[]&#125;]&#125;] 首先解决网络分区导致队列不可用的问题，需要先设置队列的高可用策略，在任意mq节点控制台执行命令：1rabbitmqctl set_policy -p / ha-all &quot;^&quot; &apos;&#123;&quot;ha-mode&quot;:&quot;all&quot;,&quot;ha-sync-mode&quot;:&quot;automatic&quot;&#125;&apos; -p 指定vhost“^” 指定策略匹配到所有队列 然后进入rabbit1控制台，编辑mq配置分区恢复处理策略：1root@rabbit1:/# vim /etc/rabbitmq/rabbitmq.conf 添加以下内容：123456789## 指定网络分区处理策略cluster_partition_handling = pause_if_all_down## Recovery strategy. Can be either &apos;autoheal&apos; or &apos;ignore&apos;cluster_partition_handling.pause_if_all_down.recover = autoheal## Node names to checkcluster_partition_handling.pause_if_all_down.nodes.1 = rabbit@rabbit1cluster_partition_handling.pause_if_all_down.nodes.2 = rabbit@rabbit2 RabbitMQ提供了4种处理网络分区的方式： ignore 默认，RabbitMQ不会自动做任何处理，即需要手动处理。 pause_minority 这种处理方式适合集群节点数大于2个且最好为奇数的情况，因为当网络恢复时，有可能两个节点会自动启动恢复网络分区，也有可能还是保持关闭状态。 pause_if_all_down, [nodes], ignore|autoheal RabbitMQ会自动关闭不能和[nodes]中节点通信的节点。 autoheal RabbitMQ会自动决定一个获胜的（winning）分区，然后重启不在这个分区中的节点以恢复网络分区。 最后重启节点1，使策略生效。 参考：https://blog.csdn.net/u013256816/article/details/73757884]]></content>
+      <categories>
+        <category>RabbitMQ</category>
+      </categories>
+      <tags>
+        <tag>RabbitMQ</tag>
+        <tag>Network Partitions</tag>
+        <tag>网络分区</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello Hexo]]></title>
+    <url>%2F2019%2F04%2F03%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+      <categories>
+        <category>other</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+</search>
