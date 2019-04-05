@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yidasanqian.github.io/about/index.html</loc>
+    
+    <lastmod>2019-04-05T13:57:14.969Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yidasanqian.github.io/categories/index.html</loc>
+    
+    <lastmod>2019-04-05T13:55:49.539Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yidasanqian.github.io/tags/index.html</loc>
+    
+    <lastmod>2019-04-05T13:55:04.862Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yidasanqian.github.io/404/index.html</loc>
     
     <lastmod>2019-04-04T15:01:12.089Z</lastmod>
@@ -19,27 +40,6 @@
     <loc>https://yidasanqian.github.io/friends/index.html</loc>
     
     <lastmod>2019-04-04T07:57:48.385Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yidasanqian.github.io/about/index.html</loc>
-    
-    <lastmod>2019-04-04T07:56:54.996Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yidasanqian.github.io/categories/index.html</loc>
-    
-    <lastmod>2019-04-04T07:56:10.366Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yidasanqian.github.io/tags/index.html</loc>
-    
-    <lastmod>2019-04-04T07:55:46.077Z</lastmod>
     
   </url>
   
