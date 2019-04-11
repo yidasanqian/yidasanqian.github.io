@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yidasanqian.github.io/2019/04/11/BeanFactory%E5%92%8CFactoryBean%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%8C%BA%E5%88%AB/</loc>
+    
+    <lastmod>2019-04-11T06:40:37.138Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yidasanqian.github.io/2019/04/10/Skipping-MapperFactoryBean-with-name-%E2%80%98xxxMapper-mapperInterface/</loc>
     
     <lastmod>2019-04-10T06:44:49.566Z</lastmod>
