@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yidasanqian.github.io/"/>
-  <updated>2019-04-11T06:40:37.138Z</updated>
+  <updated>2019-04-17T07:21:31.847Z</updated>
   <id>https://yidasanqian.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>教你如何让Mac定时自动开关黑暗模式</title>
+    <link href="https://yidasanqian.github.io/2019/04/17/%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E8%AE%A9Mac%E5%AE%9A%E6%97%B6%E8%87%AA%E5%8A%A8%E5%BC%80%E5%85%B3%E9%BB%91%E6%9A%97%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://yidasanqian.github.io/2019/04/17/教你如何让Mac定时自动开关黑暗模式/</id>
+    <published>2019-04-17T06:53:40.694Z</published>
+    <updated>2019-04-17T07:21:31.847Z</updated>
+    
+    <content type="html"><![CDATA[<p>首先在Home目录下创建苹果脚本 ChangeDarkMode.applescript：<br></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tell application &quot;System Events&quot;</span><br><span class="line">tell appearance preferences</span><br><span class="line">set dark mode to not dark mode</span><br><span class="line">end tell</span><br><span class="line">end tell</span><br></pre></td></tr></table></figure><p></p><p>然后使用<code>crontab -e</code>新建定时任务,英文输入法下输入命令<code>i</code>进入编辑模式：<br></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 22 * * * osascript ~/ChangeDarkMode.applescript</span><br><span class="line">12 9 * * * osascript ~/ChangeDarkMode.applescript</span><br></pre></td></tr></table></figure><p></p><p>第一行表示每天22:00 开启黑暗模式。第二行表示每天9:12，关闭黑暗模式。</p><p>最后按<code>esc</code>退出编辑模式，并输入命令<code>:wq</code>保存退出。</p><blockquote><p>输入命令<code>crontab -l</code>可查看任务是否新建成功。</p></blockquote><p><strong>需要注意的是如果Mac处于睡眠状态的话定时任务是不起作用的，此时需要手动开启或关闭黑暗模式！</strong></p><p>如果你的Mac安装了Alfred，那么可以使用<a href="/asserts/切换外观模式.alfredworkflow">切换外观模式</a>工作流脚本来手动切换黑暗模式。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;首先在Home目录下创建苹果脚本 ChangeDarkMode.applescript：&lt;br&gt;&lt;/p&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;
+      
+    
+    </summary>
+    
+      <category term="Mac" scheme="https://yidasanqian.github.io/categories/Mac/"/>
+    
+    
+      <category term="DarkMode" scheme="https://yidasanqian.github.io/tags/DarkMode/"/>
+    
+      <category term="AppleScript" scheme="https://yidasanqian.github.io/tags/AppleScript/"/>
+    
+      <category term="crontab" scheme="https://yidasanqian.github.io/tags/crontab/"/>
+    
+  </entry>
   
   <entry>
     <title>BeanFactory和FactoryBean接口的区别</title>
