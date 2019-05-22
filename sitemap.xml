@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yidasanqian.github.io/2019/05/22/%E8%A7%A3%E5%86%B3%E7%94%B1%E4%BA%8E%E8%AE%BE%E7%BD%AEMybatis%E7%9A%84BatchExecutor%E6%89%B9%E9%87%8F%E6%89%A7%E8%A1%8C%E5%99%A8%E8%80%8C%E5%AF%BC%E8%87%B4%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E8%87%AA%E5%A2%9EId%E7%9A%84%E9%97%AE%E9%A2%98/</loc>
+    
+    <lastmod>2019-05-22T05:35:46.642Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yidasanqian.github.io/about/index.html</loc>
     
     <lastmod>2019-05-20T03:19:12.484Z</lastmod>
