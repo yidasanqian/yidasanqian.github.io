@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yidasanqian.github.io/"/>
-  <updated>2019-07-08T01:41:12.496Z</updated>
+  <updated>2019-07-19T07:53:33.306Z</updated>
   <id>https://yidasanqian.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>配置Gradle本地和远程仓库</title>
+    <link href="https://yidasanqian.github.io/2019/07/19/%E9%85%8D%E7%BD%AEGradle%E6%9C%AC%E5%9C%B0%E5%92%8C%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%90%86%E4%BB%93%E5%BA%93/"/>
+    <id>https://yidasanqian.github.io/2019/07/19/配置Gradle本地和远程代理仓库/</id>
+    <published>2019-07-19T07:50:38.381Z</published>
+    <updated>2019-07-19T07:53:33.306Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Gradle本地配置"><a href="#Gradle本地配置" class="headerlink" title="Gradle本地配置"></a>Gradle本地配置</h2><p>Gradle默认会将依赖下载到环境变量<code>GRADLE_USER_HOME</code>所指定的目录下。</p><p>Linux/macOS系统默认目录是<code>$HOME/.gradle/</code></p><p>如果想让Gradle也使用maven仓库，即和maven共用本地库的话，需要添加以下脚本到<code>build.gradle</code>：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    mavenLocal()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>但是此方法只对当前项目有效，如果想对所有项目永久生效则需要在<code>$HOME/.gradle/</code>目录下新建<br>初始化脚本<code>init.gradle</code>:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">allprojects &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        mavenLocal()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>验证配置是否生效，添加以下脚本到<code>build.gradle</code>：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">task showRepos &lt;&lt; &#123;</span><br><span class="line">    println &quot;All repos:&quot;</span><br><span class="line">    println repositories.collect &#123; it.name &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>并运行，输出结果包含以下信息表示成功。<br></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">All repos:</span><br><span class="line">[MavenLocal, MavenRepo]</span><br></pre></td></tr></table></figure><p></p><h2 id="Gradle远程代理配置"><a href="#Gradle远程代理配置" class="headerlink" title="Gradle远程代理配置"></a>Gradle远程代理配置</h2><p><code>build.gradle</code>文件默认配置的远程仓库在天朝下载比较慢，可以使用阿里云的Maven代理替换。<br>也是在初始化脚本<code>init.gradle</code>中添加配置：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">allprojects &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        // 整合合本地配置</span><br><span class="line">        mavenLocal()</span><br><span class="line"></span><br><span class="line">        def DEFAULT_MAVEN_LOCAL_REPO_NAME = &quot;MavenLocal&quot;</span><br><span class="line">        // 指定Gradle代理仓库，也可以使用读者自己的仓库地址替换</span><br><span class="line">        def ENTERPRISE_REPOSITORY_URL = &quot;https://maven.aliyun.com/repository/public/&quot;</span><br><span class="line">        // 指定Gradle插件代理仓库</span><br><span class="line">        def GRADLE_PLUGIN_URL = &quot;https://maven.aliyun.com/repository/gradle-plugin&quot;</span><br><span class="line">        // 移除所有未用阿里云Maven代理的远程库地址</span><br><span class="line">        all &#123; ArtifactRepository repo -&gt;</span><br><span class="line">            def url = repo.url.toString()</span><br><span class="line">            if (!(repo instanceof MavenArtifactRepository) || url != ENTERPRISE_REPOSITORY_URL</span><br><span class="line">                &amp;&amp; url != GRADLE_PLUGIN_URL &amp;&amp; repo.name != DEFAULT_MAVEN_LOCAL_REPO_NAME) &#123;</span><br><span class="line">                project.logger.lifecycle &quot;Repository $&#123;repo.url&#125; removed. Used $ENTERPRISE_REPOSITORY_URL .&quot;</span><br><span class="line">                remove repo</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        // 添加阿里云的公共Maven仓库代理，包含maven central仓库和jcenter仓库</span><br><span class="line">        maven &#123;</span><br><span class="line">            name &quot;Aliyun-Public-Repository&quot;</span><br><span class="line">            url ENTERPRISE_REPOSITORY_URL</span><br><span class="line">        &#125;</span><br><span class="line">        // 添加阿里云的Gradle插件仓库代理</span><br><span class="line">        maven &#123;</span><br><span class="line">            name &quot;Aliyun-Gradle-Plugin-Repository&quot;</span><br><span class="line">            url GRADLE_PLUGIN_URL</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>验证配置是否生效，添加以下脚本到<code>build.gradle</code>：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">task showRepositories &#123;</span><br><span class="line">    doLast &#123;</span><br><span class="line">        repositories.each &#123;</span><br><span class="line">            println &quot;repository: $&#123;it.name&#125; (&apos;$&#123;it.url&#125;&apos;)&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>并运行，输出结果包含以下信息表示成功。<br></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; Task :showRepositories</span><br><span class="line">repository: MavenLocal (&apos;file:$MAVEN_REPOS/&apos;)</span><br><span class="line">repository: Aliyun-Public-Repository (&apos;https://maven.aliyun.com/repository/public/&apos;)</span><br><span class="line">repository: Aliyun-Gradle-Plugin-Repository (&apos;https://maven.aliyun.com/repository/gradle-plugin&apos;)</span><br></pre></td></tr></table></figure><p></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;Gradle本地配置&quot;&gt;&lt;a href=&quot;#Gradle本地配置&quot; class=&quot;headerlink&quot; title=&quot;Gradle本地配置&quot;&gt;&lt;/a&gt;Gradle本地配置&lt;/h2&gt;&lt;p&gt;Gradle默认会将依赖下载到环境变量&lt;code&gt;GRADLE_USER_H
+      
+    
+    </summary>
+    
+      <category term="Gradle" scheme="https://yidasanqian.github.io/categories/Gradle/"/>
+    
+    
+      <category term="gradle" scheme="https://yidasanqian.github.io/tags/gradle/"/>
+    
+      <category term="init.gradle" scheme="https://yidasanqian.github.io/tags/init-gradle/"/>
+    
+  </entry>
   
   <entry>
     <title>Mybatis插件开发原理</title>
@@ -39,11 +66,11 @@
     
       <category term="mybatis-plugin" scheme="https://yidasanqian.github.io/tags/mybatis-plugin/"/>
     
+      <category term="Interceptor" scheme="https://yidasanqian.github.io/tags/Interceptor/"/>
+    
       <category term="Intercepts注解" scheme="https://yidasanqian.github.io/tags/Intercepts%E6%B3%A8%E8%A7%A3/"/>
     
       <category term="Signature注解" scheme="https://yidasanqian.github.io/tags/Signature%E6%B3%A8%E8%A7%A3/"/>
-    
-      <category term="Interceptor" scheme="https://yidasanqian.github.io/tags/Interceptor/"/>
     
   </entry>
   
